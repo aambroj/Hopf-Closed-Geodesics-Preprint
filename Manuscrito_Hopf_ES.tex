@@ -1,0 +1,426 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[spanish,es-nodecimaldot]{babel}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage[margin=2.65cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{booktabs,longtable,array}
+\usepackage{enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=blue!50!black]{hyperref}
+\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\setlist{itemsep=3pt,topsep=4pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Geodésicas cerradas en métricas de Hopf}\fancyhead[R]{\small Manuscrito de trabajo}\fancyfoot[C]{\thepage}
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{lemma}[theorem]{Lema}
+\newtheorem{proposition}[theorem]{Proposición}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Observación}
+\newcommand{\Sthree}{\mathbb S^3}
+\newcommand{\R}{\mathbb R}
+\newcommand{\C}{\mathbb C}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\Vol}{\operatorname{Vol}}
+\newcommand{\Len}{\operatorname{Long}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\title{\bfseries Longitud mínima de geodésicas cerradas\\en una familia funcional de métricas de Hopf sobre $\Sthree$}
+\author{Alberto Ambroj\\\small Manuscrito de investigación con asistencia de inteligencia artificial}
+\date{9 de noviembre de 2026\\\small Versión de trabajo 1.1 --- Texto español}
+\begin{document}
+\maketitle
+\begin{abstract}
+Estudiamos una familia de métricas riemannianas suaves sobre la esfera tridimensional $\Sthree$, descrita en coordenadas de Hopf mediante un perfil radial arbitrario $h\in C^\infty([-1,1])$ con $0<h\leq 1/2$. Proponemos y desarrollamos una demostración de que la longitud mínima de una geodésica cerrada no constante es exactamente $2\pi$, y caracterizamos las geodésicas que alcanzan dicha longitud. La demostración se apoya en dos integrales primeras globales, una acción radial, condiciones aritméticas de periodicidad y una desigualdad variacional uniforme que excluye las resonancias cortas. Tratamos separadamente las dos fibras polares de la fibración de Hopf, sin suponer que el perfil sea par. Se da una fórmula exacta del volumen y un cociente longitud--volumen. Se explicitan las convenciones, los casos degenerados y el alcance de la comprobación. \textbf{Estado editorial:} prueba de trabajo autocontenida, no sometida aún a arbitraje; su originalidad respecto de toda la literatura no se ha establecido.
+\end{abstract}
+\tableofcontents
+\newpage
+\section{Propósito, contexto y significado del resultado}
+\textbf{Autor y procedencia del trabajo.} Alberto Ambroj presenta este manuscrito como responsable de la iniciativa de investigación, la elección del problema, las decisiones sobre su alcance y su difusión. El texto, los cálculos y las demostraciones se desarrollaron con asistencia sustancial de un sistema de inteligencia artificial (ChatGPT). No se afirma que exista una revisión matemática independiente ni que se haya establecido originalidad bibliográfica. La atribución de autoría identifica al responsable del depósito y no constituye por sí misma una verificación del resultado.
+
+\textbf{Derechos y estado de difusión.} \textcopyright\ 2026 Alberto Ambroj. Todos los derechos reservados, salvo permisos expresamente concedidos. Prepublicación de trabajo, pendiente de revisión por pares. La atribución y el historial público documentan la procedencia, pero no impiden usos indebidos de terceros.
+
+Una \emph{geodésica} es una curva que, recorrida con velocidad constante, tiene aceleración covariante nula: $\nabla_{\dot\gamma}\dot\gamma=0$. Una geodésica \emph{cerrada} regresa al mismo punto y al mismo vector tangente tras un tiempo positivo. No es suficiente que vuelva únicamente a la posición inicial. Trabajaremos siempre con geodésicas no constantes, parametrizadas por longitud de arco salvo indicación contraria.
+
+En una variedad simplemente conexa como $\Sthree$ toda curva cerrada es contráctil. Por esta razón no confundimos el invariante estudiado con la sístole homotópica usual. Definimos
+\begin{equation}\label{eq:defL}
+L(g)=\inf\{\Len_g(\gamma):\gamma\text{ es una geodésica cerrada no constante de }g\}.
+\end{equation}
+Aquí $\Len_g$ significa longitud calculada mediante la métrica $g$. Nuestro objetivo es determinar $L(g)$ para una familia concreta de métricas, no para todas las métricas de $\Sthree$.
+
+La esfera de dimensión tres se considera como
+\[
+\Sthree=\{(z_1,z_2)\in\C^2:\lvert z_1\rvert^2+\lvert z_2\rvert^2=1\},
+\]
+donde $z_1,z_2$ son coordenadas complejas. La fibración de Hopf envía esta esfera a una esfera bidimensional; sus fibras son círculos. Las llamadas \emph{fibras polares} son dos círculos de $\Sthree$, no dos puntos aislados.
+
+\section{Notación y diccionario de símbolos}
+\begin{longtable}{p{0.19\linewidth}p{0.73\linewidth}}
+\toprule
+Símbolo & Significado preciso \\
+\midrule
+$\Sthree$ & Esfera tridimensional unitaria en $\C^2$.\\
+$z_1,z_2$ & Coordenadas complejas de un punto de $\Sthree$.\\
+$u$ & Coordenada real $u=|z_1|^2-|z_2|^2$, con $-1\leq u\leq1$.\\
+$\theta,\psi$ & Ángulos locales de período $2\pi$ usados solo donde $-1<u<1$.\\
+$\eta$ & Forma diferencial global de Hopf $\operatorname{Im}(\bar z_1dz_1+\bar z_2dz_2)$.\\
+$h$ & Función suave de deformación radial, $0<h(u)\leq1/2$.\\
+$b$ & Perfil positivo $b(u)=1+(1-u^2)h(u)$.\\
+$g_h$ & Métrica riemanniana estudiada, definida en la sección siguiente.\\
+$\gamma,t,\dot\gamma$ & Geodésica, tiempo de arco y su vector velocidad unitario.\\
+$L(g),\Vol(g)$ & Menor longitud de geodésica cerrada no constante; volumen riemanniano.\\
+$a,j$ & Constantes del movimiento asociadas a dos simetrías angulares; se definen por fórmulas.\\
+$A,D,P$ & $A=1-j^2/4$; $D=1+3j^2/4$; $P(u)=A(1-u^2)-(a+ju)^2$.\\
+$u_-,u_+$ & Extremos mínimo y máximo de una oscilación radial no degenerada.\\
+$u_c,\rho$ & Centro y semiamplitud del intervalo radial permitido.\\
+$I,I_0,I_h$ & Acción radial completa y sus componentes base y perturbada.\\
+$T$ & Tiempo de una oscilación radial completa (ida y regreso).\\
+$X,Y$ & Rotaciones angulares normalizadas de una oscilación completa.\\
+$N,p,q$ & Enteros: número de oscilaciones hasta cerrar y números de rotación.\\
+$m_0,m_1,m_2$ & Promedios ponderados de $1,u,u^2$ mediante $h$.\\
+$B_h,U$ & Cantidad variacional y función universal de cota angular.\\
+$J_S,J_N$ & Integrales radiales en las excursiones polares sur y norte.\\
+$\sgn(x)$ & Signo de un número real no nulo: $+1$ o $-1$.\\
+$\Z$ & Conjunto de los números enteros.\\
+\bottomrule
+\end{longtable}
+
+\section{Definición geométrica global y suavidad}
+En el abierto $-1<u<1$ introducimos las coordenadas locales
+\begin{equation}\label{eq:hopf}
+z_1=\sqrt{\frac{1+u}{2}}e^{i\psi},\qquad
+z_2=\sqrt{\frac{1-u}{2}}e^{i(\psi+\theta)}.
+\end{equation}
+Ambos ángulos se interpretan módulo $2\pi$. La métrica redonda unitaria, inducida por la métrica euclídea de $\C^2$, es
+\begin{equation}\label{eq:round}
+g_{\mathrm{red}}=\frac{du^2}{4(1-u^2)}+\frac{1-u^2}{4}d\theta^2+\eta^2,\qquad
+\eta=d\psi+\frac{1-u}{2}d\theta.
+\end{equation}
+Definimos la métrica objeto de estudio por
+\begin{equation}\label{eq:metric}
+\boxed{g_h=\frac{b(u)^2}{4(1-u^2)}du^2+\frac{1-u^2}{4}d\theta^2+4\eta^2,\qquad b(u)=1+(1-u^2)h(u).}
+\end{equation}
+Se supone siempre $h\in C^\infty([-1,1])$ y $0<h\leq1/2$. La notación $du^2$ indica el producto tensorial simétrico $du\otimes du$; análogamente para los otros cuadrados.
+
+\begin{lemma}[Extensión suave y positividad]\label{lem:smooth}
+La expresión \eqref{eq:metric} define una métrica riemanniana suave y positiva en todo $\Sthree$, incluidas ambas fibras polares.
+\end{lemma}
+\begin{proof}
+A partir de \eqref{eq:round} se obtiene la identidad tensorial global
+\[
+g_h=g_{\mathrm{red}}+3\eta^2+\left(\frac{h(u)}2+\frac{1-u^2}{4}h(u)^2\right)du^2.
+\]
+La función $u=|z_1|^2-|z_2|^2$ y la forma $\eta=\operatorname{Im}(\bar z_1dz_1+\bar z_2dz_2)$ son suaves en toda la esfera. El coeficiente que multiplica $du^2$ es suave y no negativo, como también lo es el coeficiente de $\eta^2$. Puesto que $g_{\mathrm{red}}$ es positiva definida, la suma también lo es. La identidad prueba la extensión incluso cuando alguno de los ángulos locales de \eqref{eq:hopf} no está definido.
+\end{proof}
+
+\section{Enunciado principal y curva que realiza la igualdad}
+\begin{theorem}[Longitud mínima exacta]\label{thm:main}
+Para toda función $h\in C^\infty([-1,1])$ tal que $0<h(u)\leq1/2$, la métrica \eqref{eq:metric} cumple
+\[
+\boxed{L(g_h)=2\pi.}
+\]
+Las geodésicas cerradas que realizan esta longitud son, salvo orientación, cambio del origen del parámetro y fases constantes, las curvas
+\begin{equation}\label{eq:minimizers}
+\gamma_{\alpha,\beta}(t)=\frac1{\sqrt2}\bigl(e^{i(\alpha-t)},e^{i(\beta+t)}\bigr),\qquad 0\leq t\leq2\pi,
+\end{equation}
+con $\alpha,\beta\in\R$.
+\end{theorem}
+\begin{lemma}[Cota superior]\label{lem:upper}
+Las curvas \eqref{eq:minimizers} son geodésicas cerradas unitarias y de longitud $2\pi$ para cualquier $h$ admisible.
+\end{lemma}
+\begin{proof}
+Para $\alpha=\beta=0$ se tiene $u=0$, $\dot\theta=2$, $\dot\psi=-1$ y $\eta(\dot\gamma)=0$. La norma cuadrada es $(1-u^2)\dot\theta^2/4=1$. La ecuación radial de Euler--Lagrange se satisface, pues la derivada respecto a $u$ de la energía, con estas velocidades, se anula en $u=0$; las ecuaciones angulares se satisfacen por conservación de los momentos que se calculan abajo. Las rotaciones de fase $\alpha,\beta$ son isometrías y preservan esta propiedad. La curva vuelve a posición y velocidad en $2\pi$ y su longitud es $2\pi$.
+\end{proof}
+El resto del texto demuestra que ninguna otra clase de geodésicas cerradas tiene longitud menor, y que la igualdad obliga a estar en esta familia.
+
+\section{Momentos conservados y ecuación radial}
+Sea $\gamma$ una geodésica de velocidad unitaria. Los dos campos infinitesimales que rotan $z_1$ y $z_2$ son campos de Killing globales; sus productos escalares con $\dot\gamma$ se conservan. Para facilitar el cálculo local, definimos
+\begin{equation}\label{eq:moments}
+j=4\left(\dot\psi+\frac{1-u}{2}\dot\theta\right),\qquad
+a=\frac{1-u^2}{2}\dot\theta-ju.
+\end{equation}
+Sus combinaciones corresponden a los momentos globales $m_1=(j-a)/2$ y $m_2=(j+a)/2$ de las rotaciones de $z_1$ y $z_2$. De \eqref{eq:moments} deducimos
+\begin{equation}\label{eq:angles}
+\dot\theta=\frac{2(a+ju)}{1-u^2},\quad
+\dot\psi=\frac j4-\frac{a+ju}{1+u},\quad
+\dot\beta=\frac j4+\frac{a+ju}{1-u},
+\end{equation}
+donde $\beta=\psi+\theta=\arg z_2$ y $\psi=\arg z_1$ cuando ambas coordenadas complejas son no nulas.
+
+La ecuación de energía $g_h(\dot\gamma,\dot\gamma)=1$ se convierte en
+\begin{equation}\label{eq:radial}
+\boxed{\dot u^2=\frac{4P(u)}{b(u)^2},\quad P(u)=A(1-u^2)-(a+ju)^2,\quad A=1-\frac{j^2}{4},\quad D=1+\frac{3j^2}{4}.}
+\end{equation}
+El módulo del campo de Hopf vertical es $2$, luego Cauchy--Schwarz aplicado al momento $j$ proporciona $|j|\leq2$. Por expansión,
+\begin{equation}\label{eq:quad}
+P(u)=1-a^2-\frac{j^2}{4}-2aju-Du^2,\qquad P''(u)=-2D<0.
+\end{equation}
+El conjunto de posiciones radiales permitidas es un intervalo, posiblemente degenerado. De aquí resulta una clasificación exhaustiva: $u$ constante; oscilaciones entre dos raíces interiores distintas; o trayectorias que alcanzan una de las fibras $u=\pm1$. En la frontera $|j|=2$ toda la velocidad es vertical, y se trata de fibras. En la frontera $a^2=D$ con $|j|<2$, la raíz doble corresponde a movimiento radial de equilibrio. En las fronteras $a=\pm j$ hay acceso polar.
+
+\section{Geodésicas de radio constante}
+\begin{lemma}[Cota para latitudes]\label{lem:lat}
+Toda geodésica cerrada de radio constante tiene longitud mayor o igual que $2\pi$, y la igualdad se alcanza únicamente en las órbitas ecuatoriales horizontales \eqref{eq:minimizers}.
+\end{lemma}
+\begin{proof}
+Si $\dot\theta=0$, la curva es una fibra de Hopf recorrida verticalmente y tiene longitud $4\pi$ (el vector vertical tiene norma $2$ y el ángulo recorre $2\pi$). Supongamos $\dot\theta\ne0$. Como el término radial de la energía es cero, la ecuación de Euler--Lagrange en $u$ da
+\[
+\frac{\dot\psi}{\dot\theta}=\frac{3u-4}{8}.
+\]
+Para una curva cerrada existen $n,l\in\Z$ no nulos simultáneamente tales que $\Delta\theta=2\pi n$ y $\Delta\psi=2\pi l$. Cambiando orientación podemos suponer $n>0$. Sea $d=n+2l\in\Z$. Entonces $d\equiv n\pmod2$ y
+\[
+u=\frac{4d}{3n},\qquad |d|<\frac{3n}{4}.
+\]
+Sustituyendo las velocidades en la norma se obtiene
+\[
+\Len=\pi\sqrt{n^2-\frac43d^2}.
+\]
+Para $n=1$ no hay entero admisible de la misma paridad. Para $n=2$ solo $d=0$, y $\Len=2\pi$. Para $n=3$ únicamente $d=\pm1$, que da $\Len=\pi\sqrt{23/3}>2\pi$. Si $n\ge4$, la desigualdad estricta $|d|<3n/4$ implica $\Len>\pi n/2\ge2\pi$. La igualdad requiere $n=2,d=0$, es decir $u=0$ y $\dot\psi/\dot\theta=-1/2$, como en \eqref{eq:minimizers}.
+\end{proof}
+
+\section{Oscilaciones interiores: período y acción}
+En esta sección suponemos $|j|<2$, $a^2<D$, $|a|\ne|j|$, y dos raíces distintas $-1<u_-<u_+<1$. Escribimos
+\begin{equation}\label{eq:turning}
+P(u)=D(u-u_-)(u_+-u),\quad u_c=\frac{u_-+u_+}{2}=-\frac{aj}{D},\quad \rho=\frac{u_+-u_-}{2}=\frac{\sqrt{A(D-a^2)}}{D}.
+\end{equation}
+La palabra \emph{oscilación} indica el recorrido $u_-\to u_+\to u_-$, con retorno también del signo de la velocidad radial. Usando $u=u_c+\rho\cos\varphi$ obtenemos
+\begin{equation}\label{eq:period}
+T=\int_{u_-}^{u_+}\frac{b(u)}{\sqrt{P(u)}}du
+=\frac1{\sqrt D}\int_0^\pi b(u_c+\rho\cos\varphi)\,d\varphi
+\geq\frac\pi{\sqrt D}>\frac\pi2.
+\end{equation}
+
+Definimos la \emph{acción radial} (una integral que codifica las variaciones de los ángulos)
+\begin{equation}\label{eq:action}
+I(a,j)=\int_{u_-}^{u_+}\frac{b(u)\sqrt{P(u)}}{1-u^2}\,du=I_0+I_h,
+\end{equation}
+con
+\begin{equation}\label{eq:actionparts}
+I_0=\pi\bigl(\sqrt D-\max\{|a|,|j|\}\bigr),\qquad
+I_h=\int_{u_-}^{u_+}h(u)\sqrt{P(u)}\,du.
+\end{equation}
+Para verificar la fórmula de $I_0$, se separa $1/(1-u^2)=\tfrac12[(1-u)^{-1}+(1+u)^{-1}]$ y se usa $D(1\mp u_-)(1\mp u_+)=(a\pm j)^2$. Las integrales elementales resultan en $\pi[\sqrt D-(|a+j|+|a-j|)/2]$, y $(|a+j|+|a-j|)/2=\max(|a|,|j|)$. Las derivadas se utilizan exclusivamente dentro de cada sector abierto $|a|<|j|$ o $|a|>|j|$.
+
+\begin{lemma}[Derivadas de la acción y cierre interior]\label{lem:closure}
+Sea $X=-I_a/\pi$ y $Y=-I_j/\pi$, donde los subíndices significan derivadas parciales manteniendo fija la otra constante. Si una geodésica interior se cierra después de $N\ge1$ oscilaciones, existen $p,q\in\Z$ tales que
+\begin{equation}\label{eq:closure}
+\boxed{X=\frac pN,\qquad Y=\frac{p+2q}{N}.}
+\end{equation}
+Recíprocamente, estas dos igualdades garantizan el retorno de la posición y del vector tangente al cabo de $N$ oscilaciones.
+\end{lemma}
+\begin{proof}
+Las condiciones del extremo de integración no aportan términos de frontera al derivar $I$, porque $\sqrt P=0$ en las raíces. De \eqref{eq:radial} y \eqref{eq:angles}, al integrar ida y vuelta, se obtiene $\Delta\theta=-2I_a$ y $\Delta\chi=-I_j$, donde $\chi=\psi+\theta/2$. Si $\alpha=\arg z_1=\psi$ y $\beta=\arg z_2=\psi+\theta$, sus cambios son $\Delta\alpha=\pi(Y-X)$ y $\Delta\beta=\pi(Y+X)$. Tras $N$ oscilaciones el radio y su velocidad regresan. Las fases complejas regresan si y solo si $N\Delta\alpha$ y $N\Delta\beta$ son múltiplos de $2\pi$. Al poner esos enteros como $q$ y $p+q$ resulta \eqref{eq:closure}. Como $a,j$ se conservan, conocer $(u,\dot u,\alpha,\beta)$ devuelve también las velocidades angulares; así que retorna el estado completo.
+\end{proof}
+
+\section{Estimación uniforme de la primera rotación}
+Para una oscilación interior, sea
+\[
+X_0=\begin{cases}0,&|a|<|j|,\\ \sgn(a),&|a|>|j|.\end{cases}
+\]
+La derivación de $I_h$ muestra que
+\begin{equation}\label{eq:X}
+X=X_0+\frac1\pi\int_{u_-}^{u_+}\frac{h(u)(a+ju)}{\sqrt{P(u)}}\,du.
+\end{equation}
+Puesto que $P\ge0$ en el intervalo permitido, $|a+ju|\le\sqrt A\sqrt{1-u^2}\le\sqrt A$. Además, $\int_{u_-}^{u_+}du/\sqrt P=\pi/\sqrt D$. Deducimos
+\begin{equation}\label{eq:Xbound}
+\boxed{|X-X_0|\le\frac{\sqrt A}{2\sqrt D}\le\frac12.}
+\end{equation}
+En el interior no degenerado la primera desigualdad es estricta: $u$ recorre un intervalo positivo y $\sqrt{1-u^2}<1$ salvo, a lo sumo, en un punto.
+
+Si $|a|>|j|$, entonces $a+ju$ conserva el signo de $a$ para $-1<u<1$, con lo cual $1<|X|<3/2$. Si $|a|<|j|$, se obtiene $|X|<1/2$. En el primer sector no puede cumplirse $X=p/N$ para $N=1,2$; en el segundo, ese cierre obliga a $X=0$.
+
+\section{Lema variacional para la segunda rotación}
+Sean
+\[
+u(\varphi)=u_c+\rho\cos\varphi,\qquad
+m_k=\frac1\pi\int_0^\pi h(u(\varphi))\,u(\varphi)^k\,d\varphi,\quad k=0,1,2.
+\]
+Son promedios \emph{ponderados}; $m_0>0$ porque $h>0$.
+
+\begin{lemma}[Control de resonancias sin simetría]\label{lem:B}
+En el sector $|a|<|j|$, si $X=0$, entonces
+\begin{equation}\label{eq:YB}
+Y=\sgn(j)-\frac{3j}{4\sqrt D}+\frac{j}{\sqrt D}B_h,
+\qquad
+B_h=\frac{m_0}{4}+\frac{3m_2}{4}-\frac{m_1^2}{m_0},
+\end{equation}
+y
+\begin{equation}\label{eq:Bbound}
+\boxed{0<B_h\le\frac18+\frac{3A}{16D}.}
+\end{equation}
+\end{lemma}
+\begin{proof}
+La sustitución de \eqref{eq:turning} en \eqref{eq:X} da $X=(am_0+jm_1)/\sqrt D$, pues $X_0=0$. De $X=0$ resulta $a=-jm_1/m_0$. Al derivar $I$ respecto a $j$, separando la parte básica y la perturbada, obtenemos
+\[
+Y=\sgn(j)-\frac{3j}{4\sqrt D}+\frac{1}{\sqrt D}\left[\frac j4m_0+am_1+\frac{3j}{4}m_2\right].
+\]
+Sustituir $a=-jm_1/m_0$ produce \eqref{eq:YB}. Para obtener \eqref{eq:Bbound}, se considera para cualquier $t\in\R$
+\[
+Q_h(t)=\frac1\pi\int_0^\pi h(u(\varphi))\left[(u(\varphi)-t)^2+\frac{1-u(\varphi)^2}{4}\right]d\varphi.
+\]
+Al completar el cuadrado,
+\[
+Q_h(t)=m_0\left(t-\frac{m_1}{m_0}\right)^2+B_h.
+\]
+Por tanto $B_h=\min_tQ_h(t)>0$: el integrando es estrictamente positivo porque $u$ permanece en $(-1,1)$. Como $h\le1/2$, se cumple $Q_h(t)\le Q_{1/2}(t)$ para todo $t$, con el \emph{mismo} intervalo radial. Tomando mínimos,
+\[
+B_h\le B_{1/2}=\frac18-\frac{u_c^2}{8}+\frac{3\rho^2}{16}\le\frac18+\frac{3A}{16D},
+\]
+porque $u_c^2\ge0$ y $\rho^2=A(D-a^2)/D^2\le A/D$.
+\end{proof}
+
+Definimos para $0<s<2$, con $D_s=1+3s^2/4$, $A_s=1-s^2/4$,
+\begin{equation}\label{eq:U}
+U(s)=1-\frac{3s}{4\sqrt{D_s}}+\frac{s}{\sqrt{D_s}}\left(\frac18+\frac{3A_s}{16D_s}\right).
+\end{equation}
+Como $1-3s/(4\sqrt{D_s})>0$, las fórmulas anteriores implican $0<|Y|\le U(|j|)$. Una derivación directa proporciona
+\begin{equation}\label{eq:Uprime}
+U'(s)=-\frac{57s^2+28}{2(3s^2+4)^{5/2}}<0,\qquad U(0)=1,
+\end{equation}
+y además
+\begin{equation}\label{eq:Uthreshold}
+U\left(\sqrt{5/3}\right)=1-\frac{83\sqrt{15}}{648}<\frac23.
+\end{equation}
+Estas cotas son válidas para perfiles no pares; no hemos supuesto que $m_1=0$.
+
+\section{Exclusión de los cierres interiores de longitud corta}
+\begin{proposition}[Oscilaciones interiores]\label{prop:interior}
+Toda geodésica cerrada con oscilaciones interiores tiene longitud estrictamente mayor que $2\pi$.
+\end{proposition}
+\begin{proof}
+Por \eqref{eq:period}, si una geodésica se cierra tras $N\ge4$ oscilaciones, su longitud es $NT>2\pi$.
+
+Para $N=1,2$, el sector $|a|>|j|$ queda descartado por $1<|X|<3/2$, pues ningún múltiplo de $1/N$ está estrictamente en ese intervalo. En el sector $|a|<|j|$ se tiene $|X|<1/2$ y por \eqref{eq:closure} el cierre obliga a $X=0$. Entonces $0<|Y|<1$ por \eqref{eq:Uprime}, mientras que $Y=2q/N$ requeriría $Y$ entero para $N=2$ o entero par para $N=1$; contradicción.
+
+Finalmente, supongamos $N=3$ y $3T\le2\pi$. Como $b>1$ para $-1<u<1$, la desigualdad $T>\pi/\sqrt D$ implica $D>9/4$, o $j^2>5/3$. En esta región $A<7/12$ y $D>9/4$, así que \eqref{eq:Xbound} da $|X-X_0|<\sqrt{7/12}/3<1/3$. En el sector exterior no hay ningún múltiplo de $1/3$ entre $1$ y $4/3$ o entre $-4/3$ y $-1$. En el sector interior, $X=p/3$ obliga a $X=0$. A su vez, por \eqref{eq:Uthreshold},
+\[
+0<|Y|\le U(|j|)<U(\sqrt{5/3})<2/3,
+\]
+pero \eqref{eq:closure} exigiría $Y=2q/3$; contradicción. Esto agota $N=1,2,3$.
+\end{proof}
+
+\section{Fibras polares: por qué las fases locales no bastan}
+La fibra \emph{sur} corresponde a $u=-1$, o $z_1=0$; la fibra \emph{norte} corresponde a $u=1$, o $z_2=0$. En estas fibras no están definidos los argumentos de la coordenada compleja que se anula. Para un cierre correcto debemos comprobar tanto la posición como la velocidad transversal.
+
+\subsection{Polo sur con $j\ne0$}
+Por $P(-1)=-(a-j)^2$, el acceso exige $a=j$. Como $|j|<2$, los extremos son
+\[
+u_-=-1,\qquad u_+=1-\frac{2j^2}{D},\qquad
+P(u)=D(1+u)(u_+-u).
+\]
+De \eqref{eq:angles} se obtiene $\dot\theta=2j/(1-u)$ y $\dot\psi=-3j/4$. El incremento angular durante una \emph{excursión} completa (salida de la fibra, máximo radial, regreso a la misma fibra) es
+\begin{equation}\label{eq:south}
+\Delta\theta=\pi\sgn(j)+2jJ_S,\qquad
+J_S=\int_{-1}^{u_+}\frac{(1+u)h(u)}{\sqrt{P(u)}}du.
+\end{equation}
+El término $\pi\sgn(j)$ procede de la integral del perfil base $b=1$. La positividad de $h$ y la cota $h\le1/2$ dan
+\begin{equation}\label{eq:Js}
+0<J_S\le\frac\pi2\frac{A}{D^{3/2}}.
+\end{equation}
+
+En la fibra $z_1=0$, la posición es $z_2$ y la velocidad transversal compleja es $w=\dot z_1$, con $|w|=\sqrt A>0$. La componente tangente a la fibra viene fijada por $j$: $\dot z_2=(ij/4)z_2$. Entre dos \emph{salidas} sucesivas de la fibra el retorno actúa como
+\[
+(z_2,w)\longmapsto\bigl(e^{i(\Delta\psi+\Delta\theta)}z_2,\,-e^{i\Delta\psi}w\bigr).
+\]
+El signo menos expresa que la coordenada radial no negativa cambia de sentido cuando se cruza $z_1=0$. Por ello, un cierre tras $N$ excursiones exige
+\[
+N(\Delta\psi+\Delta\theta)\in2\pi\Z,\qquad
+N(\Delta\psi+\pi)\in2\pi\Z.
+\]
+Restando se obtiene $N(\Delta\theta-\pi)\in2\pi\Z$. Junto con \eqref{eq:south}, esto implica
+\begin{equation}\label{eq:integerS}
+\frac{NjJ_S}{\pi}\in\Z.
+\end{equation}
+El entero es no nulo porque $j\ne0$ y $J_S>0$.
+
+\subsection{Polo norte con $j\ne0$: cálculo sin simetría}
+Ahora $a=-j$ y
+\[
+u_+=1,\qquad u_-=-1+\frac{2j^2}{D},\qquad P(u)=D(1-u)(u-u_-).
+\]
+La velocidad angular es $\dot\theta=-2j/(1+u)$. Escribimos
+\[
+\Delta\theta=-\pi\sgn(j)-2jJ_N,\qquad
+J_N=\int_{u_-}^{1}\frac{(1-u)h(u)}{\sqrt{P(u)}}du,
+\]
+con $0<J_N\le\pi A/(2D^{3/2})$. Aquí el estado regular está determinado por $(z_1,\dot z_2)$ y la velocidad vertical fijada por $j$. Las condiciones de cierre son
+\[
+N\Delta\psi\in2\pi\Z,\qquad N(\Delta\psi+\Delta\theta+\pi)\in2\pi\Z.
+\]
+Restarlas da $N(\Delta\theta+\pi)\in2\pi\Z$, de donde
+\begin{equation}\label{eq:integerN}
+\frac{NjJ_N}{\pi}\in\Z.
+\end{equation}
+Esto es un cálculo independiente del polo norte; no se ha supuesto $h(u)=h(-u)$.
+
+\subsection{Cota común y caso meridiano}
+Para ambas fibras, sea $J$ igual a $J_S$ o $J_N$. Por \eqref{eq:Js} y su análogo norte, el entero no nulo $NjJ/\pi$ verifica
+\[
+1\le\frac{N|j|J}{\pi}\le\frac{N|j|A}{2D^{3/2}}.
+\]
+La función $s\mapsto s(1-s^2/4)/(1+3s^2/4)^{3/2}$ tiene máximo $2\sqrt3/9$ en $s=2/3$; por tanto $N\ge3\sqrt3$, y al ser entero $N\ge6$. Cada excursión tiene longitud mayor que $\pi/2$ por la misma fórmula de período que antes. Luego
+\begin{equation}\label{eq:polarbound}
+\boxed{\Len>3\pi>2\pi\quad\text{si una geodésica cerrada atraviesa una fibra polar y }j\ne0.}
+\end{equation}
+Si alcanza ambas fibras, $a=j=0$. Tales geodésicas tienen momentos angulares nulos y son meridianas horizontales. Una representación (sin parametrización unitaria) es $(z_1,z_2)=(\sin s,\cos s)$, $0\le s\le2\pi$, seguida eventualmente de rotaciones de fase constantes. La longitud de una vuelta cerrada es
+\begin{equation}\label{eq:meridian}
+\Len=\int_0^{2\pi}b(-\cos2s)\,ds>2\pi,
+\end{equation}
+ya que $b(u)>1$ para $|u|<1$. El intervalo $0\le s\le\pi$ no cierra la curva en $\Sthree$: lleva al punto antipodal.
+
+\section{Prueba del teorema principal y clasificación de los minimizadores}
+\begin{proof}[Demostración del Teorema~\ref{thm:main}]
+Por el Lema~\ref{lem:smooth}, $g_h$ es una métrica suave. Por el Lema~\ref{lem:upper}, existe una geodésica cerrada de longitud $2\pi$. La ecuación radial \eqref{eq:quad} muestra que toda geodésica cerrada pertenece a una de las tres clases discutidas. Las geodésicas de latitud constante verifican $\Len\ge2\pi$ por el Lema~\ref{lem:lat}; toda oscilación interior cerrada cumple $\Len>2\pi$ por la Proposición~\ref{prop:interior}; las geodésicas polares de momento vertical no nulo satisfacen \eqref{eq:polarbound}, y las meridianas cumplen \eqref{eq:meridian}. Luego el ínfimo de \eqref{eq:defL} es $2\pi$ y se alcanza. En los casos no constantes radialmente las desigualdades son estrictas, mientras que en el caso de latitudes constantes la igualdad obliga a $u=0$, $n=2$, $d=0$. Estas condiciones equivalen a las curvas \eqref{eq:minimizers}, salvo orientación, fases y origen del parámetro.
+\end{proof}
+
+\section{Volumen, cociente y ejemplos interpretativos}
+La forma de volumen, en la carta regular $-1<u<1$, es
+\[
+d\operatorname{vol}_{g_h}=\frac{b(u)}{2}\,du\,d\theta\,d\psi.
+\]
+La presencia del factor $1/2$ corresponde al parámetro vertical $c=2$; cada ángulo recorre un período de $2\pi$. Por integración,
+\begin{equation}\label{eq:volume}
+\boxed{\Vol(g_h)=2\pi^2\int_{-1}^{1}b(u)\,du
+=4\pi^2+2\pi^2\int_{-1}^{1}(1-u^2)h(u)\,du.}
+\end{equation}
+En particular,
+\begin{equation}\label{eq:ratio}
+\boxed{\frac{L(g_h)^3}{4\pi\Vol(g_h)}
+=\frac{1}{2+\int_{-1}^{1}(1-u^2)h(u)\,du}<\frac12.}
+\end{equation}
+\textbf{Ejemplo 1 (perfil par constante).} Si $h(u)=\varepsilon$ con $0<\varepsilon\le1/2$, entonces $b(u)=1+\varepsilon(1-u^2)$, $L=2\pi$ y $\Vol=4\pi^2(1+2\varepsilon/3)$.
+
+\textbf{Ejemplo 2 (perfil no par).} Si $h(u)=1/4+u/8$, entonces $1/8\le h(u)\le3/8$ y no se cumple $h(u)=h(-u)$. El teorema se aplica igualmente; no es necesario que el polo norte sea isométrico al polo sur.
+
+\textbf{Interpretación.} La deformación radial aumenta las longitudes de algunas curvas y el volumen, pero la familia ecuatorial sigue siendo geodésica y conserva su longitud exacta. La contribución del teorema es excluir la aparición de una geodésica cerrada aún más corta.
+
+\section{Alcance, comprobaciones y límites}
+La prueba ofrecida es un argumento matemático autónomo: todos los símbolos se han definido y las clases de geodésicas se han tratado separadamente. No se invoca como autoridad ninguna etapa previa de una conversación. Las comprobaciones simbólicas de $U'(s)$, del valor $U(\sqrt{5/3})$ y del máximo de la función polar sirven como controles auxiliares; no reemplazan los razonamientos escritos.
+
+\textbf{Límites expresos.} (i) El teorema concierne únicamente a las métricas \eqref{eq:metric}, con el coeficiente vertical fijado en $4$ y $0<h\le1/2$. (ii) No afirma que el espectro completo de longitudes sea conocido. (iii) No prueba una desigualdad universal para todas las métricas de $\Sthree$. (iv) No se ha establecido la originalidad científica de este enunciado en toda la literatura. (v) El manuscrito no ha pasado una revisión especializada independiente ni una verificación formal en un asistente de pruebas.
+
+\section{Relación con investigaciones anteriores}
+Los trabajos de Adachi, Maeda y Yamagishi estudian espectros de longitudes de geodésicas en esferas geodésicas de espacios complejos; Adachi y Maeda estudian espacios sasakianos de curvatura constante, con ejemplos relacionados con esferas de Berger. Nuestro perfil $h$ permite métricas generalmente no homogéneas. Liu investiga estimaciones longitud--volumen para ciertas métricas sobre esferas; sus desigualdades no identifican directamente el mínimo exacto de nuestra familia. Vialaret estudia desigualdades de períodos de flujos de Reeb sobre fibrados circulares tridimensionales; el fibrado cotangente unitario de $\Sthree$ tiene dimensión cinco, por lo que no se debe equiparar automáticamente ambos problemas.
+
+Se han contrastado los datos bibliográficos que siguen, pero \emph{no} se ha efectuado una revisión exhaustiva capaz de demostrar originalidad o prioridad.
+
+\begin{thebibliography}{9}
+\bibitem{Adachi2002} T.~Adachi, S.~Maeda y M.~Yamagishi, ``Length spectrum of geodesic spheres in a non-flat complex space form'', \emph{Journal of the Mathematical Society of Japan} \textbf{54}(2) (2002), 373--408. DOI: \href{https://doi.org/10.2969/JMSJ/05420373}{10.2969/JMSJ/05420373}.
+\bibitem{Adachi2020} T.~Adachi y S.~Maeda, ``Length spectrum of complete simply connected Sasakian space forms'', \emph{Differential Geometry and its Applications} \textbf{70} (2020), artículo 101625. DOI: \href{https://doi.org/10.1016/j.difgeo.2020.101625}{10.1016/j.difgeo.2020.101625}.
+\bibitem{Liu2025} Y.~Liu, ``Lengths of closed geodesics for certain warped product metrics and nearly round metrics on spheres'', \emph{Journal of Inequalities and Applications} (2025), artículo 85. DOI: \href{https://doi.org/10.1186/s13660-025-03323-5}{10.1186/s13660-025-03323-5}.
+\bibitem{Vialaret2025} S.~Vialaret, ``Sharp systolic inequalities for invariant tight contact forms on principal $\mathbb S^1$-bundles over $\mathbb S^2$'', \emph{Annales Henri Lebesgue} \textbf{8} (2025), 995--1021. DOI: \href{https://doi.org/10.5802/ahl.253}{10.5802/ahl.253}.
+\end{thebibliography}
+
+\section{Protocolo propuesto para una revisión matemática independiente}
+Este manuscrito se entrega como \emph{borrador para evaluación crítica}, no como artículo aceptado ni como resultado certificado. La afirmación principal debe examinarse con especial atención en los siguientes puntos.
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Globalidad de las coordenadas.} Confirmar que las integrales primeras $a,j$ se prolongan como combinaciones de momentos de Killing globales; revisar el tratamiento de las fibras $z_1=0$ y $z_2=0$.
+\item \textbf{Normalización de acción y tiempo.} Recalcular independientemente $I_0$, $\Delta\theta=-2I_a$, $\Delta\chi=-I_j$ y el período de ida y vuelta $T$, comprobando los factores $2$ y $\pi$.
+\item \textbf{Cierre del estado, no solo de la posición.} Verificar la transformación del vector transversal al cruzar una fibra polar y comprobar que las condiciones enteras se deducen de la posición y del vector velocidad.
+\item \textbf{Control de rotaciones.} Revisar la igualdad variacional para $B_h$, la comparación $h\le1/2$, la monotonía de $U$ y la exclusión de $N=1,2,3$.
+\item \textbf{Exhaustividad.} Revisar los casos $|j|=2$, $a^2=D$, $|a|=|j|$, $a=j=0$ y la posibilidad de cierres con retorno radial incompleto.
+\item \textbf{Prioridad bibliográfica.} Investigar si el resultado se deduce de un teorema existente para métricas con simetría tórica, flujos magnéticos o geodésicas de métricas de Berger deformadas.
+\end{enumerate}
+La revisión de prioridad es independiente de la revisión de validez: una prueba correcta puede ser conocida, y un enunciado aparentemente inédito puede resultar falso. Ninguna de ambas cuestiones se considera cerrada por el presente documento.
+
+\end{document}

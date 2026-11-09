@@ -1,0 +1,409 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[english]{babel}
+\usepackage{fontspec}
+\setmainfont{DejaVu Serif}
+\usepackage[margin=2.65cm]{geometry}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{microtype}
+\usepackage{booktabs,longtable,array,enumitem}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,urlcolor=blue!50!black,citecolor=blue!50!black]{hyperref}
+\usepackage{xcolor,fancyhdr}
+\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}\setlist{itemsep=3pt,topsep=4pt}
+\pagestyle{fancy}\fancyhf{}\fancyhead[L]{\small Closed geodesics in Hopf metrics}\fancyhead[R]{\small Working manuscript}\fancyfoot[C]{\thepage}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\theoremstyle{remark}\newtheorem{remark}[theorem]{Remark}
+\newcommand{\Sthree}{\mathbb S^3}\newcommand{\R}{\mathbb R}\newcommand{\C}{\mathbb C}\newcommand{\Z}{\mathbb Z}
+\newcommand{\Vol}{\operatorname{Vol}}\newcommand{\Len}{\operatorname{Length}}\newcommand{\sgn}{\operatorname{sgn}}
+\title{\bfseries The Shortest Closed Geodesic Length\\in a Functional Family of Hopf Metrics on $\Sthree$}
+\author{Alberto Ambroj\\\small Research manuscript developed with substantial AI assistance}
+\date{November 9, 2026\\\small Working version 1.1 --- English edition}
+\begin{document}\maketitle
+\begin{abstract}
+We study a family of smooth Riemannian metrics on the three-sphere $\Sthree$, described in Hopf coordinates by an arbitrary radial profile $h\in C^\infty([-1,1])$ satisfying $0<h\leq 1/2$. We state and develop a proof that the shortest nonconstant closed geodesic has length exactly $2\pi$, and characterize all closed geodesics attaining that length. The argument uses two globally defined first integrals, a radial action, integer periodicity conditions, and a uniform variational inequality ruling out low-period resonances. The two polar Hopf fibers are handled separately without any evenness assumption on the profile. We also derive an exact volume formula and a length-to-volume ratio. Conventions, degenerate cases, and the scope of verification are stated explicitly. \textbf{Editorial status:} self-contained working proof, not yet peer reviewed; originality relative to the entire literature has not been established.
+\end{abstract}
+\tableofcontents\newpage
+\section{Purpose, context, and meaning of the result}
+\textbf{Author and research provenance.} Alberto Ambroj presents this manuscript as the person responsible for the research initiative, the choice of problem, the decisions about scope, and dissemination. The text, calculations, and proofs were developed with substantial assistance from an artificial intelligence system (ChatGPT). No independent mathematical review or bibliographic originality is claimed. Attribution identifies the person responsible for the deposit and does not by itself verify the result.
+
+\textbf{Copyright and dissemination status.} \textcopyright\ 2026 Alberto Ambroj. All rights reserved unless permission is expressly granted. Working preprint, not peer-reviewed. Attribution and public version history document provenance but cannot prevent unauthorized copying.
+
+A \emph{geodesic} is a curve whose covariant acceleration vanishes when parametrized at constant speed: $\nabla_{\dot\gamma}\dot\gamma=0$. A \emph{closed geodesic} returns to both its initial position and its initial tangent vector after a positive time. Returning to the initial position alone is not sufficient. Unless otherwise stated, all geodesics below are nonconstant and parametrized by arc length.
+
+Every closed curve on the simply connected manifold $\Sthree$ is contractible. Consequently, the invariant investigated here must not be confused with the usual homotopy systole. We define
+\begin{equation}\label{eq:defL}
+L(g)=\inf\{\Len_g(\gamma):\gamma\text{ is a nonconstant closed geodesic of }g\}.
+\end{equation}
+The symbol $\Len_g$ denotes length measured using the Riemannian metric $g$. We seek an exact evaluation of $L(g)$ for one specific class of metrics, not for all metrics on $\Sthree$.
+
+We realize the three-sphere as
+\[
+\Sthree=\{(z_1,z_2)\in\C^2:|z_1|^2+|z_2|^2=1\},
+\]
+with complex coordinates $z_1,z_2$. The Hopf fibration maps $\Sthree$ onto a two-sphere, with circular fibers. Its two \emph{polar fibers} are circles in $\Sthree$, not isolated points.
+
+\section{Notation and complete symbol glossary}
+\begin{longtable}{p{0.19\linewidth}p{0.73\linewidth}}
+\toprule
+Symbol & Exact meaning \\
+\midrule
+$\Sthree$ & Unit three-sphere in $\C^2$.\\
+$z_1,z_2$ & Complex coordinates of a point on $\Sthree$.\\
+$u$ & Real coordinate $u=|z_1|^2-|z_2|^2$, with $-1\leq u\leq1$.\\
+$\theta,\psi$ & Local angles of period $2\pi$, used only when $-1<u<1$.\\
+$\eta$ & Global Hopf one-form $\operatorname{Im}(\bar z_1dz_1+\bar z_2dz_2)$.\\
+$h$ & Smooth radial deformation profile, $0<h(u)\leq1/2$.\\
+$b$ & Positive function $b(u)=1+(1-u^2)h(u)$.\\
+$g_h$ & Riemannian metric under study, defined in the next section.\\
+$\gamma,t,\dot\gamma$ & Geodesic, arc-length time, and unit tangent velocity.\\
+$L(g),\Vol(g)$ & Shortest nonconstant closed-geodesic length; Riemannian volume.\\
+$a,j$ & Two conserved angular momenta, explicitly defined below.\\
+$A,D,P$ & $A=1-j^2/4$; $D=1+3j^2/4$; $P(u)=A(1-u^2)-(a+ju)^2$.\\
+$u_-,u_+$ & Minimum and maximum turning points of a nondegenerate radial oscillation.\\
+$u_c,\rho$ & Center and half-width of the allowed radial interval.\\
+$I,I_0,I_h$ & Radial action and its unperturbed and perturbed parts.\\
+$T$ & Duration of one complete radial oscillation (outward and return).\\
+$X,Y$ & Normalized angular rotations during one full radial oscillation.\\
+$N,p,q$ & Integers: number of radial oscillations to closure and winding numbers.\\
+$m_0,m_1,m_2$ & Weighted averages of $1,u,u^2$, with weight $h$.\\
+$B_h,U$ & Variational quantity and its universal angular upper bound.\\
+$J_S,J_N$ & Radial integrals for excursions through the south and north polar fibers.\\
+$\sgn(x)$ & Sign of a nonzero real number: $+1$ or $-1$.\\
+$\Z$ & The integers.\\
+\bottomrule
+\end{longtable}
+
+\section{Global geometric definition and smoothness}
+On the open set $-1<u<1$, introduce the local coordinates
+\begin{equation}\label{eq:hopf}
+z_1=\sqrt{\frac{1+u}{2}}e^{i\psi},\qquad
+z_2=\sqrt{\frac{1-u}{2}}e^{i(\psi+\theta)}.
+\end{equation}
+Both angles are taken modulo $2\pi$. The unit round metric induced by the Euclidean metric on $\C^2$ is
+\begin{equation}\label{eq:round}
+g_{\mathrm{round}}=\frac{du^2}{4(1-u^2)}+\frac{1-u^2}{4}d\theta^2+\eta^2,\quad
+\eta=d\psi+\frac{1-u}{2}d\theta.
+\end{equation}
+We define the metric under investigation by
+\begin{equation}\label{eq:metric}
+\boxed{g_h=\frac{b(u)^2}{4(1-u^2)}du^2+\frac{1-u^2}{4}d\theta^2+4\eta^2,\quad b(u)=1+(1-u^2)h(u).}
+\end{equation}
+Throughout, $h\in C^\infty([-1,1])$ and $0<h\leq1/2$. Expressions such as $du^2$ mean the symmetric tensor product $du\otimes du$.
+
+\begin{lemma}[Smooth extension and positive definiteness]\label{lem:smooth}
+Formula \eqref{eq:metric} defines a smooth positive-definite Riemannian metric on all of $\Sthree$, including both polar fibers.
+\end{lemma}
+\begin{proof}
+Equation \eqref{eq:round} yields the global tensor identity
+\[
+g_h=g_{\mathrm{round}}+3\eta^2+\left(\frac{h(u)}2+\frac{1-u^2}{4}h(u)^2\right)du^2.
+\]
+Both $u=|z_1|^2-|z_2|^2$ and $\eta=\operatorname{Im}(\bar z_1dz_1+\bar z_2dz_2)$ are smooth global objects. The displayed coefficient is smooth and nonnegative, and so is the coefficient of $\eta^2$. The round metric is already positive definite; adding nonnegative quadratic forms preserves positive definiteness. This formula proves smooth extension across the loci where one of the local angle coordinates in \eqref{eq:hopf} becomes undefined.
+\end{proof}
+
+\section{Main statement and an explicit minimizing geodesic}
+\begin{theorem}[Exact shortest closed-geodesic length]\label{thm:main}
+For every $h\in C^\infty([-1,1])$ satisfying $0<h(u)\leq1/2$, the metric \eqref{eq:metric} satisfies
+\[
+\boxed{L(g_h)=2\pi.}
+\]
+All closed geodesics achieving that length, up to orientation, shift of the origin of the parameter, and constant complex phases, are
+\begin{equation}\label{eq:minimizers}
+\gamma_{\alpha,\beta}(t)=\frac1{\sqrt2}\bigl(e^{i(\alpha-t)},e^{i(\beta+t)}\bigr),\qquad 0\leq t\leq2\pi,
+\end{equation}
+where $\alpha,\beta\in\R$.
+\end{theorem}
+\begin{lemma}[Upper bound]\label{lem:upper}
+Curves \eqref{eq:minimizers} are unit-speed closed geodesics of length $2\pi$ for every admissible $h$.
+\end{lemma}
+\begin{proof}
+For $\alpha=\beta=0$, one has $u=0$, $\dot\theta=2$, $\dot\psi=-1$, and $\eta(\dot\gamma)=0$. Hence the squared speed is $(1-u^2)\dot\theta^2/4=1$. The radial Euler--Lagrange equation holds because, at $u=0$ with these velocities, the derivative of the kinetic-energy Lagrangian with respect to $u$ vanishes. The angular equations hold by conservation of the momenta derived below. Rotating the two complex phases independently preserves the metric, so every $\gamma_{\alpha,\beta}$ is also a geodesic. Both position and velocity return after $2\pi$, giving the asserted length.
+\end{proof}
+What remains is to rule out every other type of closed geodesic of length less than or equal to $2\pi$, except for the displayed equatorial family.
+
+\section{Conserved momenta and the radial equation}
+Let $\gamma$ be a unit-speed geodesic. The infinitesimal generators of independent rotations of $z_1$ and $z_2$ are global Killing fields; their inner products with $\dot\gamma$ are conserved. In local coordinates define
+\begin{equation}\label{eq:moments}
+j=4\left(\dot\psi+\frac{1-u}{2}\dot\theta\right),\qquad
+a=\frac{1-u^2}{2}\dot\theta-ju.
+\end{equation}
+The corresponding globally defined rotation momenta are $m_1=(j-a)/2$ and $m_2=(j+a)/2$. Solving \eqref{eq:moments} for the angular velocities yields
+\begin{equation}\label{eq:angles}
+\dot\theta=\frac{2(a+ju)}{1-u^2},\quad
+\dot\psi=\frac j4-\frac{a+ju}{1+u},\quad
+\dot\beta=\frac j4+\frac{a+ju}{1-u},
+\end{equation}
+where $\beta=\psi+\theta=\arg z_2$ and $\psi=\arg z_1$ wherever both complex coordinates are nonzero.
+
+The unit-energy relation $g_h(\dot\gamma,\dot\gamma)=1$ becomes
+\begin{equation}\label{eq:radial}
+\boxed{\dot u^2=\frac{4P(u)}{b(u)^2},\quad P(u)=A(1-u^2)-(a+ju)^2,\quad A=1-\frac{j^2}{4},\quad D=1+\frac{3j^2}{4}.}
+\end{equation}
+The vertical Hopf Killing field has norm $2$; Cauchy--Schwarz applied to $j$ implies $|j|\leq2$. On expanding,
+\begin{equation}\label{eq:quad}
+P(u)=1-a^2-\frac{j^2}{4}-2aju-Du^2,\qquad P''(u)=-2D<0.
+\end{equation}
+The allowed radial set is a single interval, possibly a point. Thus any closed geodesic has constant $u$, oscillates between two distinct interior turning points, or reaches at least one of the fibers $u=\pm1$. At $|j|=2$, the entire unit velocity is vertical and the geodesic is a Hopf fiber. At $a^2=D$ with $|j|<2$, the double turning root is a constant-radius equilibrium. At $a=\pm j$ a polar fiber can be reached.
+
+\section{Constant-radius closed geodesics}
+\begin{lemma}[Constant-latitude lower bound]\label{lem:lat}
+Every constant-radius closed geodesic has length at least $2\pi$. Equality holds only for the horizontal equatorial orbits \eqref{eq:minimizers}.
+\end{lemma}
+\begin{proof}
+If $\dot\theta=0$, the trajectory follows the vertical Hopf field and is a fiber of length $4\pi$ (vertical vector norm $2$, angular period $2\pi$). Otherwise, the radial Euler--Lagrange equation at $\dot u=0$ gives
+\[
+\frac{\dot\psi}{\dot\theta}=\frac{3u-4}{8}.
+\]
+Closure supplies integers $n,l\in\Z$, not both zero, with $\Delta\theta=2\pi n$ and $\Delta\psi=2\pi l$. Reverse orientation if necessary so that $n>0$. Set $d=n+2l$, so $d\equiv n\pmod2$. The equilibrium equation implies
+\[
+u=\frac{4d}{3n},\qquad |d|<\frac{3n}{4}.
+\]
+Substitution into the speed gives the closed-geodesic length
+\[
+\Len=\pi\sqrt{n^2-\frac43d^2}.
+\]
+For $n=1$ there is no admissible $d$ of matching parity. For $n=2$ only $d=0$ is allowed, with $\Len=2\pi$. For $n=3$ the possibilities are $d=\pm1$, yielding $\Len=\pi\sqrt{23/3}>2\pi$. For $n\ge4$, the strict bound $|d|<3n/4$ implies $\Len>\pi n/2\ge2\pi$. Thus equality requires $n=2$, $d=0$, $u=0$, and $\dot\psi/\dot\theta=-1/2$, precisely the orbits \eqref{eq:minimizers}.
+\end{proof}
+
+\section{Interior radial oscillations: period and action}
+Assume $|j|<2$, $a^2<D$, $|a|\ne|j|$, and two distinct interior roots $-1<u_-<u_+<1$. Then
+\begin{equation}\label{eq:turning}
+P(u)=D(u-u_-)(u_+-u),\quad u_c=\frac{u_-+u_+}{2}=-\frac{aj}{D},\quad \rho=\frac{u_+-u_-}{2}=\frac{\sqrt{A(D-a^2)}}{D}.
+\end{equation}
+A \emph{complete radial oscillation} means $u_-\to u_+\to u_-$, returning with the same radial velocity sign. With $u=u_c+\rho\cos\varphi$,
+\begin{equation}\label{eq:period}
+T=\int_{u_-}^{u_+}\frac{b(u)}{\sqrt{P(u)}}du
+=\frac1{\sqrt D}\int_0^\pi b(u_c+\rho\cos\varphi)\,d\varphi
+\ge\frac\pi{\sqrt D}>\frac\pi2.
+\end{equation}
+
+Define the \emph{radial action}, an integral encoding angular changes,
+\begin{equation}\label{eq:action}
+I(a,j)=\int_{u_-}^{u_+}\frac{b(u)\sqrt{P(u)}}{1-u^2}\,du=I_0+I_h,
+\end{equation}
+where
+\begin{equation}\label{eq:actionparts}
+I_0=\pi\left(\sqrt D-\max\{|a|,|j|\}\right),\qquad
+I_h=\int_{u_-}^{u_+}h(u)\sqrt{P(u)}\,du.
+\end{equation}
+For clarity, the evaluation of $I_0$ follows by splitting $1/(1-u^2)=\tfrac12[(1-u)^{-1}+(1+u)^{-1}]$ and using $D(1\mp u_-)(1\mp u_+)=(a\pm j)^2$. The resulting elementary integrals yield $\pi[\sqrt D-(|a+j|+|a-j|)/2]$. Finally $(|a+j|+|a-j|)/2=\max(|a|,|j|)$. The action is differentiated only in the open sectors $|a|<|j|$ and $|a|>|j|$, never across their shared polar boundary.
+
+\begin{lemma}[Action derivatives and interior closure]\label{lem:closure}
+Set $X=-I_a/\pi$ and $Y=-I_j/\pi$, with partial derivatives taken while the other conserved quantity is fixed. A geodesic closes after $N\ge1$ radial oscillations if and only if integers $p,q\in\Z$ exist such that
+\begin{equation}\label{eq:closure}
+\boxed{X=\frac pN,\qquad Y=\frac{p+2q}{N}.}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Differentiating the action produces no endpoint terms, since $\sqrt P$ vanishes at turning roots. Integrating \eqref{eq:angles} over the outward and inward branches and using \eqref{eq:radial} gives $\Delta\theta=-2I_a$ and $\Delta\chi=-I_j$, where $\chi=\psi+\theta/2$. If $\alpha=\arg z_1=\psi$ and $\beta=\arg z_2=\psi+\theta$, their changes are $\Delta\alpha=\pi(Y-X)$ and $\Delta\beta=\pi(Y+X)$. After $N$ radial cycles, $u$ and $\dot u$ return. The two nonzero complex coordinates return if and only if both $N\Delta\alpha$ and $N\Delta\beta$ are integer multiples of $2\pi$. Writing those integers as $q$ and $p+q$ yields \eqref{eq:closure}. Because $a,j$ are conserved, the recovered radial data and two phases determine all angular velocities; hence the full tangent state returns.
+\end{proof}
+
+\section{A uniform estimate for the first rotation}
+For an interior oscillation, define
+\[
+X_0=\begin{cases}0,&|a|<|j|,\\\sgn(a),&|a|>|j|.\end{cases}
+\]
+Differentiating $I_h$ gives
+\begin{equation}\label{eq:X}
+X=X_0+\frac1\pi\int_{u_-}^{u_+}\frac{h(u)(a+ju)}{\sqrt{P(u)}}du.
+\end{equation}
+Since $P\ge0$ on the allowed interval, $|a+ju|\le\sqrt A\sqrt{1-u^2}\le\sqrt A$. Also $\int_{u_-}^{u_+}du/\sqrt P=\pi/\sqrt D$. Therefore
+\begin{equation}\label{eq:Xbound}
+\boxed{|X-X_0|\le\frac{\sqrt A}{2\sqrt D}\le\frac12.}
+\end{equation}
+For nondegenerate interior oscillations the first inequality is strict, because $u$ ranges over a nontrivial interval and $\sqrt{1-u^2}<1$ except possibly at one point.
+
+If $|a|>|j|$, the factor $a+ju$ keeps the sign of $a$ throughout the allowed interval, giving $1<|X|<3/2$. If $|a|<|j|$, then $|X|<1/2$. In the exterior sector, $X=p/N$ is impossible for $N=1,2$. In the interior sector, it forces $X=0$ for these values of $N$.
+
+\section{The variational lemma for the second rotation}
+Let
+\[
+u(\varphi)=u_c+\rho\cos\varphi,\qquad
+m_k=\frac1\pi\int_0^\pi h(u(\varphi))u(\varphi)^k\,d\varphi,\quad k=0,1,2.
+\]
+These are \emph{weighted moments}; $m_0>0$ because $h>0$.
+
+\begin{lemma}[Resonance control without profile symmetry]\label{lem:B}
+In the sector $|a|<|j|$, whenever $X=0$,
+\begin{equation}\label{eq:YB}
+Y=\sgn(j)-\frac{3j}{4\sqrt D}+\frac{j}{\sqrt D}B_h,\qquad
+B_h=\frac{m_0}{4}+\frac{3m_2}{4}-\frac{m_1^2}{m_0},
+\end{equation}
+and
+\begin{equation}\label{eq:Bbound}
+\boxed{0<B_h\le\frac18+\frac{3A}{16D}.}
+\end{equation}
+\end{lemma}
+\begin{proof}
+Using \eqref{eq:turning} in \eqref{eq:X}, and $X_0=0$, gives $X=(am_0+jm_1)/\sqrt D$. Hence $X=0$ implies $a=-jm_1/m_0$. Differentiating the action with respect to $j$ and separating its two parts yields
+\[
+Y=\sgn(j)-\frac{3j}{4\sqrt D}+\frac1{\sqrt D}\left(\frac j4m_0+am_1+\frac{3j}{4}m_2\right).
+\]
+Substituting $a=-jm_1/m_0$ establishes \eqref{eq:YB}. For the bound, introduce, for any real $t$,
+\[
+Q_h(t)=\frac1\pi\int_0^\pi h(u(\varphi))\left[(u(\varphi)-t)^2+\frac{1-u(\varphi)^2}{4}\right]d\varphi.
+\]
+Completing the square gives
+\[
+Q_h(t)=m_0\left(t-\frac{m_1}{m_0}\right)^2+B_h.
+\]
+Thus $B_h=\min_t Q_h(t)>0$: the integrand is strictly positive because every interior oscillation has $|u|<1$. Since $h\le1/2$, we have $Q_h(t)\le Q_{1/2}(t)$ for every $t$, over the \emph{same} radial interval. Taking the respective minima gives
+\[
+B_h\le B_{1/2}=\frac18-\frac{u_c^2}{8}+\frac{3\rho^2}{16}\le\frac18+\frac{3A}{16D},
+\]
+as $u_c^2\ge0$ and $\rho^2=A(D-a^2)/D^2\le A/D$.
+\end{proof}
+
+For $0<s<2$ define $D_s=1+3s^2/4$, $A_s=1-s^2/4$, and
+\begin{equation}\label{eq:U}
+U(s)=1-\frac{3s}{4\sqrt{D_s}}+\frac{s}{\sqrt{D_s}}\left(\frac18+\frac{3A_s}{16D_s}\right).
+\end{equation}
+Since $1-3s/(4\sqrt{D_s})>0$, the preceding results give $0<|Y|\le U(|j|)$. Direct differentiation produces
+\begin{equation}\label{eq:Uprime}
+U'(s)=-\frac{57s^2+28}{2(3s^2+4)^{5/2}}<0,\qquad U(0)=1,
+\end{equation}
+and
+\begin{equation}\label{eq:Uthreshold}
+U\left(\sqrt{5/3}\right)=1-\frac{83\sqrt{15}}{648}<\frac23.
+\end{equation}
+These estimates do not require an even profile or $m_1=0$.
+
+\section{Excluding short closed interior oscillations}
+\begin{proposition}[Interior oscillations]\label{prop:interior}
+Every closed geodesic with nondegenerate interior radial oscillations has length strictly greater than $2\pi$.
+\end{proposition}
+\begin{proof}
+From \eqref{eq:period}, closure after $N\ge4$ oscillations gives length $NT>2\pi$.
+
+For $N=1,2$, the sector $|a|>|j|$ is ruled out by $1<|X|<3/2$, which contains no integer multiple of $1/N$. In $|a|<|j|$, the bound $|X|<1/2$ and \eqref{eq:closure} force $X=0$. Then $0<|Y|<1$ by \eqref{eq:Uprime}, while \eqref{eq:closure} requires $Y=2q/N$, an integer for $N=2$ or an even integer for $N=1$. This is impossible.
+
+For $N=3$, suppose in addition $3T\le2\pi$. Since $b>1$ in the interior, $T>\pi/\sqrt D$ implies $D>9/4$, hence $j^2>5/3$. Then $A<7/12$, $D>9/4$, and \eqref{eq:Xbound} gives $|X-X_0|<\sqrt{7/12}/3<1/3$. In the exterior sector no integer multiple of $1/3$ lies strictly between $1$ and $4/3$, or between $-4/3$ and $-1$. In the interior sector the only possible value is $X=0$. But \eqref{eq:Uthreshold} gives
+\[
+0<|Y|\le U(|j|)<U(\sqrt{5/3})<2/3,
+\]
+whereas closure requires $Y=2q/3$ for an integer $q$. This final contradiction covers $N=3$.
+\end{proof}
+
+\section{Polar fibers: why local angular phases are insufficient}
+The \emph{south} fiber is $u=-1$, equivalently $z_1=0$, and the \emph{north} fiber is $u=1$, equivalently $z_2=0$. At either fiber, the argument of the vanishing complex coordinate is undefined. The correct return test must include position and transverse velocity.
+
+\subsection{South polar fiber, $j\ne0$}
+Since $P(-1)=-(a-j)^2$, reaching the south fiber requires $a=j$. For $|j|<2$ the radial endpoints and polynomial are
+\[
+u_-=-1,\qquad u_+=1-\frac{2j^2}{D},\qquad P(u)=D(1+u)(u_+-u).
+\]
+Equation \eqref{eq:angles} simplifies to $\dot\theta=2j/(1-u)$ and $\dot\psi=-3j/4$. The angular increment during a full \emph{excursion} (from the fiber to the radial maximum and back to the same fiber) is
+\begin{equation}\label{eq:south}
+\Delta\theta=\pi\sgn(j)+2jJ_S,\qquad
+J_S=\int_{-1}^{u_+}\frac{(1+u)h(u)}{\sqrt{P(u)}}du.
+\end{equation}
+The term $\pi\sgn(j)$ is the explicit contribution of the base profile $b=1$. Positivity and $h\le1/2$ imply
+\begin{equation}\label{eq:Js}
+0<J_S\le\frac\pi2\frac{A}{D^{3/2}}.
+\end{equation}
+
+On the fiber $z_1=0$, the position is $z_2$ and the complex transverse velocity is $w=\dot z_1$, with $|w|=\sqrt A>0$. The vertical velocity is determined by $j$: $\dot z_2=(ij/4)z_2$. Between two successive departures from the fiber, the return map is
+\[
+(z_2,w)\longmapsto\left(e^{i(\Delta\psi+\Delta\theta)}z_2,\,-e^{i\Delta\psi}w\right).
+\]
+The minus sign is necessary because the nonnegative radial coordinate reverses its direction when the curve crosses $z_1=0$. Accordingly, closure after $N$ excursions requires
+\[
+N(\Delta\psi+\Delta\theta)\in2\pi\Z,\qquad N(\Delta\psi+\pi)\in2\pi\Z.
+\]
+Subtracting yields $N(\Delta\theta-\pi)\in2\pi\Z$. Combined with \eqref{eq:south}, this implies
+\begin{equation}\label{eq:integerS}
+\frac{NjJ_S}{\pi}\in\Z.
+\end{equation}
+This integer is nonzero since $j\ne0$ and $J_S>0$.
+
+\subsection{North polar fiber, $j\ne0$: no symmetry assumption}
+Here $a=-j$ and
+\[
+u_+=1,\qquad u_-=-1+\frac{2j^2}{D},\qquad P(u)=D(1-u)(u-u_-).
+\]
+The angular speed is $\dot\theta=-2j/(1+u)$. Thus
+\[
+\Delta\theta=-\pi\sgn(j)-2jJ_N,\qquad
+J_N=\int_{u_-}^{1}\frac{(1-u)h(u)}{\sqrt{P(u)}}du,
+\]
+with $0<J_N\le\pi A/(2D^{3/2})$. At this fiber the regular state is determined by $(z_1,\dot z_2)$ and the vertical velocity fixed by $j$. Closure requires
+\[
+N\Delta\psi\in2\pi\Z,\qquad N(\Delta\psi+\Delta\theta+\pi)\in2\pi\Z.
+\]
+After subtraction, $N(\Delta\theta+\pi)\in2\pi\Z$, so
+\begin{equation}\label{eq:integerN}
+\frac{NjJ_N}{\pi}\in\Z.
+\end{equation}
+This calculation is performed directly at the north fiber; we have not assumed $h(u)=h(-u)$.
+
+\subsection{A common bound and the meridional case}
+For either polar fiber write $J$ for $J_S$ or $J_N$. The nonzero integer $NjJ/\pi$ and the estimate on $J$ imply
+\[
+1\le\frac{N|j|J}{\pi}\le\frac{N|j|A}{2D^{3/2}}.
+\]
+The function $s\mapsto s(1-s^2/4)/(1+3s^2/4)^{3/2}$ attains its maximum $2\sqrt3/9$ at $s=2/3$. Consequently, $N\ge3\sqrt3$, so the integer $N$ is at least $6$. Every polar excursion has duration greater than $\pi/2$, by the same period formula as for interior oscillations. Hence
+\begin{equation}\label{eq:polarbound}
+\boxed{\Len>3\pi>2\pi\quad\text{for a closed geodesic reaching a polar fiber with }j\ne0.}
+\end{equation}
+If a geodesic reaches both fibers, $a=j=0$. Its angular momenta vanish and it is a horizontal meridian. Up to constant complex phase rotations, a non-unit-speed parametrization is $(z_1,z_2)=(\sin s,\cos s)$ for $0\le s\le2\pi$. The length of a closed traversal is
+\begin{equation}\label{eq:meridian}
+\Len=\int_0^{2\pi}b(-\cos2s)\,ds>2\pi,
+\end{equation}
+since $b(u)>1$ when $|u|<1$. The half-interval $0\le s\le\pi$ does not close the curve on $\Sthree$: it reaches the antipodal point.
+
+\section{Proof of the main theorem and classification of minimizers}
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Lemma~\ref{lem:smooth} establishes that $g_h$ is smooth. Lemma~\ref{lem:upper} exhibits a closed geodesic of length $2\pi$. The quadratic radial equation \eqref{eq:quad} places every closed geodesic in one of the three analyzed classes. Constant-radius geodesics have $\Len\ge2\pi$ by Lemma~\ref{lem:lat}; closed interior oscillations have $\Len>2\pi$ by Proposition~\ref{prop:interior}; nonzero-vertical-momentum polar geodesics satisfy \eqref{eq:polarbound}; and meridians satisfy \eqref{eq:meridian}. Thus the infimum in \eqref{eq:defL} equals $2\pi$ and is attained. All cases with nonconstant $u$ give strict inequalities. For constant-radius geodesics, equality requires $u=0$, $n=2$, and $d=0$, which gives exactly the family \eqref{eq:minimizers}, up to orientation, initial phases, and parameter shift.
+\end{proof}
+
+\section{Volume, normalized ratio, and explanatory examples}
+The Riemannian volume form in the regular chart $-1<u<1$ is
+\[
+d\operatorname{vol}_{g_h}=\frac{b(u)}2\,du\,d\theta\,d\psi.
+\]
+The factor $1/2$ corresponds to the vertical scale $c=2$; each angle has period $2\pi$. Integrating yields
+\begin{equation}\label{eq:volume}
+\boxed{\Vol(g_h)=2\pi^2\int_{-1}^{1}b(u)\,du
+=4\pi^2+2\pi^2\int_{-1}^{1}(1-u^2)h(u)\,du.}
+\end{equation}
+Consequently,
+\begin{equation}\label{eq:ratio}
+\boxed{\frac{L(g_h)^3}{4\pi\Vol(g_h)}
+=\frac{1}{2+\int_{-1}^{1}(1-u^2)h(u)\,du}<\frac12.}
+\end{equation}
+\textbf{Example 1 (constant, even profile).} If $h(u)=\varepsilon$ with $0<\varepsilon\le1/2$, then $b(u)=1+\varepsilon(1-u^2)$, $L=2\pi$, and $\Vol=4\pi^2(1+2\varepsilon/3)$.
+
+\textbf{Example 2 (asymmetric profile).} If $h(u)=1/4+u/8$, then $1/8\le h(u)\le3/8$ and $h(u)\ne h(-u)$ in general. The theorem still applies; no isometry exchanging north and south fibers is assumed.
+
+\textbf{Geometric meaning.} The radial deformation increases the length of some curves and increases volume, but the equatorial family remains geodesic with exactly the same length. The theorem rules out any newly arising closed geodesic shorter than this family.
+
+\section{Scope, verification, and limitations}
+The argument is written to be self-contained: every symbol has been defined and the cases have been handled separately. No previous conversation is used as a mathematical authority. Symbolic checks of $U'(s)$, $U(\sqrt{5/3})$, and the maximum of the polar function are supplementary consistency checks rather than substitutes for the displayed proofs.
+
+\textbf{Explicit limitations.} (i) The theorem concerns only metrics \eqref{eq:metric}, with vertical coefficient fixed at $4$ and profiles satisfying $0<h\le1/2$. (ii) It does not determine the full length spectrum. (iii) It is not a universal closed-geodesic inequality for arbitrary metrics on $\Sthree$. (iv) Scientific originality relative to the full existing literature has not been established. (v) This manuscript has not undergone independent specialist peer review or formal proof-assistant verification.
+
+\section{Relation to earlier research}
+Adachi, Maeda, and Yamagishi study closed-geodesic length spectra on geodesic spheres in complex space forms; Adachi and Maeda study constant-curvature Sasakian space forms, including models related to Berger spheres. Our profile $h$ allows generally nonhomogeneous metrics. Liu studies length--volume bounds for certain sphere metrics, which do not directly determine the exact minimum for our family. Vialaret studies Reeb-flow period inequalities on three-dimensional circle bundles; the unit cotangent bundle of $\Sthree$ is five-dimensional, so these settings should not be identified without further argument.
+
+The bibliographic metadata below have been checked, but \emph{no} exhaustive priority or originality review has been completed.
+\begin{thebibliography}{9}
+\bibitem{Adachi2002} T.~Adachi, S.~Maeda, and M.~Yamagishi, ``Length spectrum of geodesic spheres in a non-flat complex space form,'' \emph{Journal of the Mathematical Society of Japan} \textbf{54}(2) (2002), 373--408. DOI: \href{https://doi.org/10.2969/JMSJ/05420373}{10.2969/JMSJ/05420373}.
+\bibitem{Adachi2020} T.~Adachi and S.~Maeda, ``Length spectrum of complete simply connected Sasakian space forms,'' \emph{Differential Geometry and its Applications} \textbf{70} (2020), article 101625. DOI: \href{https://doi.org/10.1016/j.difgeo.2020.101625}{10.1016/j.difgeo.2020.101625}.
+\bibitem{Liu2025} Y.~Liu, ``Lengths of closed geodesics for certain warped product metrics and nearly round metrics on spheres,'' \emph{Journal of Inequalities and Applications} (2025), article 85. DOI: \href{https://doi.org/10.1186/s13660-025-03323-5}{10.1186/s13660-025-03323-5}.
+\bibitem{Vialaret2025} S.~Vialaret, ``Sharp systolic inequalities for invariant tight contact forms on principal $\mathbb S^1$-bundles over $\mathbb S^2$,'' \emph{Annales Henri Lebesgue} \textbf{8} (2025), 995--1021. DOI: \href{https://doi.org/10.5802/ahl.253}{10.5802/ahl.253}.
+\end{thebibliography}
+
+\section{Proposed protocol for an independent mathematical review}
+This manuscript is supplied as a \emph{critical-review draft}, not as an accepted article or a certified theorem. The main assertion should be examined especially carefully at the following points.
+\begin{enumerate}[label=\arabic*.]
+\item \textbf{Global coordinates.} Confirm that the first integrals $a,j$ extend as combinations of global Killing momenta; check the treatments of the fibers $z_1=0$ and $z_2=0$.
+\item \textbf{Action and time normalization.} Independently recompute $I_0$, $\Delta\theta=-2I_a$, $\Delta\chi=-I_j$, and the outward-and-return period $T$, checking all factors of $2$ and $\pi$.
+\item \textbf{Closure of the full state.} Verify the transverse velocity transformation on crossing a polar fiber, and check that the integer closure conditions follow from both position and velocity.
+\item \textbf{Rotation estimates.} Review the variational equality for $B_h$, the comparison $h\le1/2$, the monotonicity of $U$, and the exclusions for $N=1,2,3$.
+\item \textbf{Exhaustiveness.} Review $|j|=2$, $a^2=D$, $|a|=|j|$, $a=j=0$, and the possibility of a closed orbit with an incomplete radial return.
+\item \textbf{Bibliographic priority.} Determine whether the result is implied by an existing theorem on torus-symmetric metrics, magnetic flows, or deformations of Berger geodesic dynamics.
+\end{enumerate}
+The priority review and the validity review are separate: a correct proof may already be known, and an apparently new claim may be false. Neither question is considered settled by this document.
+
+\end{document}

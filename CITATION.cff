@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you discuss this working preprint, please cite it as an unreviewed manuscript."
+title: "The Shortest Closed Geodesic Length in a Functional Family of Hopf Metrics on S³"
+authors:
+  - family-names: "Ambroj"
+    given-names: "Alberto"
+version: 1.1.0
+date-released: 2026-11-09
+type: manuscript
